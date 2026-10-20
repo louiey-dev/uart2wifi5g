@@ -3,8 +3,8 @@
 ## IO define
 
 - Flash via USB/UART at dev board
-- UART TX : IO2
-- UART RX : IO3
+- UART TX : IO8
+- UART RX : IO9
 
 ## Things TODO
 
