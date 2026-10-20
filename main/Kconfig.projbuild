@@ -1,0 +1,110 @@
+menu "WiFi Configuration"
+
+    config ESP_WIFI_SSID
+        string "WiFi SSID"
+        default "myssid"
+        help
+            SSID (network name) for the SoftAP network.
+
+    config ESP_WIFI_PASSWORD
+        string "WiFi Password"
+        default "mypassword"
+        help
+            WiFi password (WPA or WPA2) for the SoftAP network.
+
+    choice ESP_WIFI_BAND_MODE
+        prompt "Wi-Fi Band Mode"
+        default ESP_WIFI_BAND_5G
+        help
+            Select operating Wi-Fi band on ESP32-C5.
+
+        config ESP_WIFI_BAND_5G
+            bool "5 GHz Only"
+
+        config ESP_WIFI_BAND_2G
+            bool "2.4 GHz Only"
+
+        config ESP_WIFI_BAND_AUTO
+            bool "2.4 GHz + 5 GHz (Auto)"
+    endchoice
+
+    config ESP_WIFI_CHANNEL
+        int "WiFi Channel"
+        default 36 if ESP_WIFI_BAND_5G
+        default 1 if !ESP_WIFI_BAND_5G
+        range 1 165
+        help
+            WiFi channel to use.
+            - 2.4 GHz: channels 1 to 13.
+            - 5 GHz: channels 36, 40, 44, 48 (UNII-1 recommended) or 149 - 165.
+
+    config ESP_MAX_STA_CONN
+        int "Maximal STA connections"
+        default 4
+        help
+            Max number of the STA connects to AP.
+
+    config ESP_GTK_REKEYING_ENABLE
+        bool "Enable GTK Rekeying"
+        default y
+        help
+            Flag to enable GTK rekeying.
+
+    config ESP_GTK_REKEY_INTERVAL
+        int "GTK rekey interval"
+        depends on ESP_GTK_REKEYING_ENABLE
+        range 60 65535
+        default 600
+        help
+            GTK rekeying interval in seconds.
+endmenu
+
+menu "External UART Configuration"
+
+    config EXTERNAL_UART_NUM
+        int "UART port number"
+        default 1
+        help
+            UART port used to communicate with external device.
+
+    config EXTERNAL_UART_TX_PIN
+        int "UART TX GPIO pin"
+        default 8
+        help
+            GPIO pin for UART TX to external device.
+
+    config EXTERNAL_UART_RX_PIN
+        int "UART RX GPIO pin"
+        default 9
+        help
+            GPIO pin for UART RX from external device.
+
+    config EXTERNAL_UART_BAUD_RATE
+        int "UART Baud Rate"
+        default 115200
+        help
+            UART baud rate for external device communication.
+
+    config EXTERNAL_UART_RX_BUF_SIZE
+        int "UART RX buffer size"
+        default 1024
+        help
+            Buffer size in bytes for receiving UART data.
+
+endmenu
+
+menu "UDP Configuration"
+
+    config UDP_DEST_IP
+        string "UDP Destination IP"
+        default "192.168.4.2"
+        help
+            Destination IP address for UDP forwarding (default: 192.168.4.2 or broadcast 192.168.4.255).
+
+    config UDP_DEST_PORT
+        int "UDP Destination Port"
+        default 3333
+        help
+            UDP port number to send data to.
+
+endmenu
